@@ -136,6 +136,7 @@ class FlxAnimate extends FlxSprite
 	override function initVars()
 	{
 		super.initVars();
+ transformMatrix=new FlxMatrix();
 		anim = new FlxAnimateController(this);
 		skew = new FlxPoint();
 		animation = anim;
@@ -317,7 +318,8 @@ class FlxAnimate extends FlxSprite
 			matrix.concat(library.matrix);
 		}
 
-		getScreenPosition(_point, camera);
+		if(matrixExposed && transformMatrix!=null) matrix.concat(transformMatrix);
+ getScreenPosition(_point, camera);
 		_point.x += origin.x - offset.x;
 		_point.y += origin.y - offset.y;
 		matrix.translate(_point.x, _point.y);
@@ -494,4 +496,8 @@ class FlxAnimate extends FlxSprite
 		stageBg = FlxDestroyUtil.destroy(stageBg);
 		skew = FlxDestroyUtil.put(skew);
 	}
+
+	public var transformMatrix(default, null):FlxMatrix;
+
+	public var matrixExposed:Bool = false;
 }
